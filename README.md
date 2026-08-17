@@ -170,27 +170,6 @@ python web_app.py
 
 ---
 
-## 🌐 English Documentation
-
-### Overview
-With Google DeepMind's publication of **SynthID-Text** in *Nature* (October 2024) and the enforcement of Article 50 of the EU AI Act, major frontier models (Claude, Gemini, ChatGPT) are embedding statistical token watermarks into their text outputs.
-
-**Unmark** is an open-source toolkit designed for AI safety research, watermark robustness auditing, and semantics-preserving text purification. By leveraging clean, unwatermarked open-source models (such as Qwen2.5 or Llama 3), Unmark completely disrupts the underlying $N$-gram hash bias chain while **100% preserving core factual information and academic reasoning**.
-
-### Quick Start (Python)
-```python
-from unmark import UnmarkEngine, WatermarkDetector
-
-engine = UnmarkEngine(model_path_or_name="./qwen_local")
-detector = WatermarkDetector(model_path_or_name="./qwen_local")
-
-# Scrub watermark
-clean_text = engine.scrub("Your watermarked text from Claude / Gemini / ChatGPT...")
-print("Watermark evaluation:", detector.detect(clean_text))
-```
-
----
-
 ### 八、 学术引用 / Citation
 
 如果您在学术论文、课题研究或安全评估中使用了本项目的代码或数据，请按如下格式引用：
