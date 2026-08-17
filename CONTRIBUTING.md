@@ -38,8 +38,7 @@ Thank you for your interest in contributing to **Unmark**! We welcome contributi
 
 ## Code Style
 - Follow PEP 8 guidelines.
-- Add type hints where appropriate.
-- Include docstrings in Google style format.
+- Add clear type hints and docstrings where appropriate.
 
 ## License
 By contributing to `Unmark`, you agree that your contributions will be licensed under the **Apache License 2.0**.
