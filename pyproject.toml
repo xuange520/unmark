@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "unmark"
-version = "0.1.0"
-description = "A semantics-preserving toolkit for removing and evaluating statistical LLM text watermarks (SynthID-Text, etc.)"
+version = "0.2.0"
+description = "A dual-layer, semantics-preserving toolkit for removing and evaluating statistical LLM text watermarks and hidden tracking marks"
 readme = "README.md"
 authors = [
     { name = "Jay", email = "xuangeylw@gmail.com" }

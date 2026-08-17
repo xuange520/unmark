@@ -8,15 +8,17 @@
     概率偏置链，使水印检测统计量 (Z-Score) 回归到白噪声基线，同时保持核心语义与事实完整度。
 
 核心特性:
-    1. 多风格重构模板 (Standard 标准 / Academic 学术 / Fluent 流畅)
-    2. 自适应采样控制 (Temperature, Top-p, Repetition Penalty)
-    3. 支持 CPU / CUDA 多硬件环境与单精度/半精度推理
+    1. 双层流水线防御 (Layer A 字符净化 + Layer B 统计重塑)
+    2. 多风格重构模板 (Standard 标准 / Academic 学术 / Fluent 流畅)
+    3. 自适应采样控制 (Temperature, Top-p, Repetition Penalty)
+    4. 支持 CPU / CUDA 多硬件环境与单精度/半精度推理
 =============================================================================
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple, Union
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from unmark.sanitizer import sanitize_text
 
 # 专为大模型语义重塑设计的 Prompt 模板库
 STYLE_PROMPTS = {
@@ -76,34 +78,46 @@ class UnmarkEngine:
         self,
         text: str,
         style: str = "standard",
+        sanitize_first: bool = True,
         temperature: float = 0.8,
         top_p: float = 0.92,
         top_k: int = 50,
         repetition_penalty: float = 1.15,
         max_new_tokens: Optional[int] = None,
-    ) -> str:
+        return_details: bool = False,
+    ) -> Union[str, Dict[str, Any]]:
         """
         对输入文本执行去水印重塑清洗。
 
         参数:
             text (str): 待清洗的带水印文本
             style (str): 重构风格 ('standard', 'academic', 'fluent')
+            sanitize_first (bool): 是否先执行 Layer A 隐形/零宽字符净化 (默认 True)
             temperature (float): 采样随机度 (默认 0.8，避免原样复读)
             top_p (float): Nucleus 采样截断阈值 (默认 0.92)
             top_k (int): 候选词 Top-K 限制 (默认 50)
             repetition_penalty (float): 重复词惩罚系数 (默认 1.15，抑制 N-gram 重复)
             max_new_tokens (int, optional): 最大生成 Token 数量
+            return_details (bool): 是否返回包含 Layer A 统计与耗时的详细报告字典 (默认 False)
 
         返回:
-            str: 清洗后的纯净无水印文本
+            Union[str, Dict[str, Any]]: 清洗后的纯净文本 (或详细报告字典)
         """
         if not text or not text.strip():
-            return ""
+            return {"cleaned_text": "", "sanitizer_report": {}} if return_details else ""
 
+        # Step 1: Layer A 确定性隐形字符净化
+        sanitizer_report = {}
+        if sanitize_first:
+            processed_text, sanitizer_report = sanitize_text(text)
+        else:
+            processed_text = text
+
+        # Step 2: Layer B 深度语义重塑
         system_instruction = STYLE_PROMPTS.get(style, STYLE_PROMPTS["standard"])
         prompt = (
             f"<|im_start|>system\n{system_instruction}<|im_end|>\n"
-            f"<|im_start|>user\n请将以下文本用不同的词语搭配和句式结构进行深度改写，保持原意，严禁原样复制：\n{text.strip()}<|im_end|>\n"
+            f"<|im_start|>user\n请将以下文本用不同的词语搭配和句式结构进行深度改写，保持原意，严禁原样复制：\n{processed_text.strip()}<|im_end|>\n"
             f"<|im_start|>assistant\n"
         )
 
@@ -111,7 +125,7 @@ class UnmarkEngine:
         prompt_len = inputs.input_ids.shape[1]
 
         if max_new_tokens is None:
-            input_text_tokens = len(self.tokenizer.encode(text))
+            input_text_tokens = len(self.tokenizer.encode(processed_text))
             max_new_tokens = max(int(input_text_tokens * 1.4), 100)
 
         with torch.no_grad():
@@ -134,5 +148,14 @@ class UnmarkEngine:
         for prefix in ["改写结果：", "改写如下：", "重写如下：", "【改写】", "答："]:
             if scrubbed_text.startswith(prefix):
                 scrubbed_text = scrubbed_text[len(prefix) :].strip()
+
+        if return_details:
+            return {
+                "cleaned_text": scrubbed_text,
+                "sanitizer_report": sanitizer_report,
+                "style": style,
+                "input_chars": len(text),
+                "output_chars": len(scrubbed_text),
+            }
 
         return scrubbed_text
