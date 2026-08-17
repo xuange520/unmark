@@ -44,12 +44,12 @@ Following the publication of **SynthID-Text** by Google DeepMind in *Nature* (Oc
 
 ```mermaid
 flowchart TD
-    A[Raw Input Text / Document] --> B{Layer A: Deterministic Unicode Sanitizer}
-    B -->|Strip Zero-Width Chars / Bidi / Tags| C[Sanitized Text + Anomaly Breakdown]
-    C --> D{Layer B: Discourse Paraphrasing Engine}
-    D -->|Independent Autoregressive Resampling| E[Purified Clean Text]
-    E --> F[SynthID Statistical Detector & Quality Metrics]
-    F --> G[✅ Dual-Layer Audit Report (Z-Score < 1.5, 0 Invisible Marks)]
+    A["Raw Input Text / Document"] --> B{"Layer A: Deterministic Unicode Sanitizer"}
+    B -->|"Strip Zero-Width Chars / Bidi / Tags"| C["Sanitized Text + Anomaly Breakdown"]
+    C --> D{"Layer B: Discourse Paraphrasing Engine"}
+    D -->|"Independent Autoregressive Resampling"| E["Purified Clean Text"]
+    E --> F["SynthID Statistical Detector & Quality Metrics"]
+    F --> G["✅ Dual-Layer Audit Report (Z-Score < 1.5, 0 Invisible Marks)"]
 ```
 
 ---
