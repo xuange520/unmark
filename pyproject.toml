@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unmark"
+version = "0.1.0"
+description = "A semantics-preserving toolkit for removing and evaluating statistical LLM text watermarks (SynthID-Text, etc.)"
+readme = "README.md"
+authors = [
+    { name = "Jay", email = "xuangeylw@gmail.com" }
+]
+license = { text = "Apache-2.0" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Security",
+]
+keywords = ["watermark", "synthid", "llm", "watermark-removal", "nlp", "ai-safety", "de-watermark"]
+requires-python = ">=3.9"
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.46.0",
+    "numpy>=1.20.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+]
+web = [
+    "gradio>=4.0.0",
+]
+
+[project.scripts]
+unmark = "unmark.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/xuange520/unmark"
+Repository = "https://github.com/xuange520/unmark"
+Issues = "https://github.com/xuange520/unmark/issues"

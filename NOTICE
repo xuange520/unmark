@@ -1,0 +1,7 @@
+Unmark (https://github.com/xuange520/unmark)
+Copyright (c) 2026 Jay <xuangeylw@gmail.com>
+
+This product includes software developed as part of:
+- Google DeepMind's SynthID-Text research (Nature 2024, "Scalable watermarking for identifying large language model outputs").
+- Hugging Face Transformers library (https://github.com/huggingface/transformers), licensed under Apache-2.0.
+- Qwen2.5 language models developed by Alibaba Cloud, licensed under Apache-2.0.
