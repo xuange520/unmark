@@ -187,7 +187,13 @@ python web_app.py
 
 ---
 
-### 八、 开源协议 / License
+### 八、 免责声明 / Disclaimer
+
+本项目仅用于 **学术研究、大模型水印鲁棒性评估与 AI 对抗安全测试**。使用者应当遵守当地法律法规、学术道德规范及相关机构政策。开发者不对任何非授权使用、抄袭或不当行为承担连带法律责任。
+
+---
+
+### 九、 开源协议 / License
 
 本项目采用 [Apache License 2.0](LICENSE) 开源协议。  
 Copyright (c) 2026 **Jay** (<xuangeylw@gmail.com>).

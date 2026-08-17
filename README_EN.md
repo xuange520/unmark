@@ -178,6 +178,12 @@ Open `http://127.0.0.1:7860` to access the dual-layer control panel.
 
 ---
 
+## ⚠️ Responsible Use Disclaimer
+
+`Unmark` is developed strictly for **academic research, AI watermark robustness auditing, and responsible evaluation of machine-generated text watermarks**. Users are solely responsible for complying with applicable local laws, institutional ethics policies, and academic integrity regulations. The author and contributors assume no liability for unauthorized or misuse.
+
+---
+
 ## 📄 License
 
 This project is licensed under the [Apache License 2.0](LICENSE).  
