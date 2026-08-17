@@ -12,7 +12,7 @@
 
 *基于深度语义重塑的开源大语言模型统计水印抹除与安全评估系统*
 
-[中文文档](#-中文文档) | [English Documentation](#-english-documentation)
+[English Documentation](README_EN.md) | [中文文档](README.md)
 
 </div>
 
